@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
                     let duration = modified.duration_since(UNIX_EPOCH).unwrap_or_default();
                     let timestamp = duration.as_secs();
                     let datetime = NaiveDateTime::from_timestamp(timestamp as i64, 0);
-                    println!("{} - {}", datetime, file_name_str);
+                    println!("{} - {}", datetime.format("%Y-%m-%d %H:%M"), file_name_str);
                 } else {
                     println!("N/A - {}", file_name_str);
                 }
