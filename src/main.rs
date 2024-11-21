@@ -1,16 +1,17 @@
-use std::io::{self, Write};
+use std::fs;
+use std::io;
 
-fn main() {
-    // Ask the user for input
-    print!("Enter toto's Class: ");
-    io::stdout().flush().unwrap(); // Ensure the prompt is displayed immediately
+fn main() -> io::Result<()> {
+    // Get the current directory
+    let current_dir = std::env::current_dir()?;
+    //println!("Current directory: {}", current_dir.display());
 
-    let mut input = String::new();
-    
-    // Read the user input
-    io::stdin().read_line(&mut input).unwrap();
+    // Read and list the contents of the current directory
+    for entry in fs::read_dir(current_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        println!("{}", path.display());
+    }
 
-    // Print the user input
-    println!("Toto's class is: {}", input.trim()); // Use trim() to remove any trailing newline
+    Ok(())
 }
-
