@@ -9,8 +9,13 @@ fn main() -> io::Result<()> {
     // Read and list the contents of the current directory
     for entry in fs::read_dir(current_dir)? {
         let entry = entry?;
-        let path = entry.path();
-        println!("{}", path.display());
+        let file_name = entry.file_name();
+        let file_name_str = file_name.to_string_lossy();
+
+        // Skip hidden files (file names starting with '.')
+        if !file_name_str.starts_with('.') {
+            println!("{}", file_name_str);
+        }
     }
 
     Ok(())
