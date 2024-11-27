@@ -1,5 +1,5 @@
 [package]
-name = "ls-rust"
+name = "lust"
 version = "0.1.0"
 edition = "2021"
 
