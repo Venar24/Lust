@@ -1,8 +1,8 @@
 use std::env;
 use std::fs;
 use std::io;
-use std::time::{SystemTime, UNIX_EPOCH};
-use chrono::NaiveDateTime;
+use std::time::UNIX_EPOCH;
+use chrono::{DateTime, Local};
 
 fn main() -> io::Result<()> {
     // Parse command-line arguments
@@ -21,9 +21,8 @@ fn main() -> io::Result<()> {
             if let Ok(metadata) = entry.metadata() {
                 if let Ok(modified) = metadata.modified() {
                     // Convert to a human-readable timestamp
-                    let duration = modified.duration_since(UNIX_EPOCH).unwrap_or_default();
-                    let timestamp = duration.as_secs();
-                    let datetime = NaiveDateTime::from_timestamp(timestamp as i64, 0);
+                    let duration_since_epoch = modified.duration_since(UNIX_EPOCH).unwrap_or_default();
+                    let datetime = DateTime::<Local>::from(UNIX_EPOCH + duration_since_epoch);
                     println!("{} - {}", datetime.format("%Y-%m-%d %H:%M"), file_name_str);
                 } else {
                     println!("N/A - {}", file_name_str);
