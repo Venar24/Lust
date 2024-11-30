@@ -1,5 +1,6 @@
 use std::env;
 use std::fs;
+use std::process;
 use std::io;
 use std::time::UNIX_EPOCH;
 use chrono::{DateTime, Local};
@@ -8,6 +9,14 @@ fn main() -> io::Result<()> {
     // Parse command-line arguments
     let args: Vec<String> = env::args().collect();
     let show_hidden = args.contains(&"-c".to_string());
+    let show_help = args.contains(&"-help".to_string());
+
+if show_help{
+    println!("Here are the Lust arguments.
+    -help to see all the possible arguments.
+    -c    to see hidden files.");
+    process::exit(0); // Exit with a success code
+}
 
     // Read and list the file names in the current directory
     for entry in fs::read_dir(std::env::current_dir()?)? {
