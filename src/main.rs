@@ -8,13 +8,13 @@ use chrono::{DateTime, Local};
 fn main() -> io::Result<()> {
     // Parse command-line arguments
     let args: Vec<String> = env::args().collect();    
-    if args.contains(&"-c".to_string()) {
+    if args.contains(&"-i".to_string()) {
         show_hidden()?; // Propagate errors from `show_hidden`
     }
-    if args.contains(&"-h".to_string()) || args.contains(&"-help".to_string()) {
+   else if args.contains(&"-h".to_string()) || args.contains(&"-help".to_string()) {
         show_help(); // This doesn't need `Result`, as it exits the program
     }
-    else{
+    else {
         show_files()?;
     }
 
@@ -25,7 +25,7 @@ fn show_help() {
     println!(
         "Here are the Lust arguments:
     -help or -h to see all the possible arguments.
-    -c    to see hidden files."
+    -i    to see hidden files."
     );
     process::exit(0); // Exit with a success code
 }
@@ -61,7 +61,7 @@ fn show_hidden() -> io::Result<()> {
             let file_name = entry.file_name();
             let file_name_str = file_name.to_string_lossy();
     
-            //if file_name_str.starts_with('.') {
+            if !file_name_str.starts_with('.') {
                 // Get file metadata
                 if let Ok(metadata) = entry.metadata() {
                     if let Ok(modified) = metadata.modified() {
@@ -75,6 +75,7 @@ fn show_hidden() -> io::Result<()> {
                 }
             //}
         }
+    }
 
     Ok(())
 }
